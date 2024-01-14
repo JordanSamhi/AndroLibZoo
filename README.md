@@ -1,9 +1,45 @@
+<p align="center">
+<img width="1200px" src="https://github.com/JordanSamhi/AndroLibZoo/blob/main/data/androlibzoo_logo.png">
+</p>
+
 # AndroLibZoo
 
-This repository hosts the AndroLibZoo dataset and the artifacts used in our study on Android libraries.
+This repository hosts the AndroLibZoo dataset.
 
-:warning: :warning: :warning:
-:loudspeaker: All artifacts are available in Zenodo, **<ins>LINK BELOW</ins>**.
+## Easier access and use
+
+We have wrapped the AndroLibZoo dataset for easier use in your program.
+The [AndroSpecter](https://github.com/JordanSamhi/AndroSpecter) library has a [LibrariesManager](https://github.com/JordanSamhi/AndroSpecter/wiki/LibrariesManager) that you can easily use:
+
+```java
+LibrariesManager manager = LibrariesManager.v();
+SootClass sootClass = // Retrieve a SootClass instance
+boolean isLibrary = manager.isLibrary(sootClass);
+
+if (isLibrary) {
+    System.out.println("The class is a library.");
+} else {
+    System.out.println("The class is not a library.");
+}
+```
+
+Please checkout [here](https://github.com/JordanSamhi/AndroSpecter/wiki) for more.
+
+If you use our dataset, even with AndroSpecter, please cite our work:
+
+```
+@inproceedings{10.1145/3524842.3528020,
+	title        = {AndroLibZoo: A Reliable Dataset of Libraries Based on Software Dependency Analysis},
+	author       = {J. Samhi and T. F. Bissyande and J. Klein},
+	year         = 2024,
+	month        = april,
+	booktitle    = {2024 IEEE/ACM 21st International Conference on Mining Software Repositories (MSR)}
+}
+```
+
+## Artifacts
+
+All artifacts used in our study are available in Zenodo.
 
 ## Link to the Zenodo archive
 
@@ -11,25 +47,6 @@ This repository hosts the AndroLibZoo dataset and the artifacts used in our stud
 
 
 :link: https://zenodo.org/record/10072709
-
-## Artifacts
-
-The `artifacts` folder contains all the artifacts, i.e., datasets, scripts, results, source code, etc., to reproduce our study and produce AndroLibZoo.
-
-* The file `AndroLibZoo.lst` is our dataset.
-* The subfolders in artifacts are as follows:
-  * The `motivation` folder contains all artifacts related to our motivation study (i.e., Section 2).
-  * The `methodology` folder contains all artifacts related to our methodology (i.e., Section 3). In particular, we present:
-    * How we gather libraries from Maven
-    * How we gather libraries from Google
-    * How we gather transitive dependencies
-    * How we gather libraries from open source apps
-    * How we gather libraries from Gradle plugin libraries
-    * How we refined our list of libraries.
-  * The `description` folder contains the artifacts useful to describe our dataset (i.e., Section 4).
-
-All folders contain scripts that start with "XX_", with XX being a number that represents the order in which scripts need to be executed. Some of the scripts need to be parametrized with names of servers, AndroZoo API keys, prefixes for Redis server, etc.
-
 
 ## License
 
