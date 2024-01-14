@@ -28,7 +28,7 @@ Please checkout [here](https://github.com/JordanSamhi/AndroSpecter/wiki) for mor
 If you use our dataset, even with AndroSpecter, please cite our work:
 
 ```
-@inproceedings{10.1145/3524842.3528020,
+@inproceedings{androlibzoo,
 	title        = {AndroLibZoo: A Reliable Dataset of Libraries Based on Software Dependency Analysis},
 	author       = {J. Samhi and T. F. Bissyande and J. Klein},
 	year         = 2024,
