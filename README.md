@@ -6,6 +6,10 @@
 
 This repository hosts the AndroLibZoo dataset.
 
+## Contributions
+
+📢 If you find that AndroLibZoo lacks a specific package name of a library that might have been missed, please feel free to propose a pull-request, ***the better the list, the better our analyses***.
+
 ## Easier access and use
 
 We have wrapped the AndroLibZoo dataset for easier use in your program.
