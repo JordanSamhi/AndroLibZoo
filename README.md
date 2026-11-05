@@ -1,62 +1,78 @@
 <p align="center">
-<img width="1200px" src="https://github.com/JordanSamhi/AndroLibZoo/blob/main/data/androlibzoo_logo.png">
+  <img src="data/androlibzoo-mark.png" alt="AndroLibZoo logo" width="200">
 </p>
 
 # AndroLibZoo
 
-This repository hosts the AndroLibZoo dataset.
+AndroLibZoo is a dataset of package names for identifying third-party library code in Android apps. It was created through software dependency analysis and is intended to support research and static analysis.
 
-## Contributions
+[Dataset](AndroLibZoo.lst) · [Paper](https://doi.org/10.1145/3643991.3644866) · [Research artifacts](https://doi.org/10.5281/zenodo.10072709) · [AndroSpecter](https://github.com/JordanSamhi/AndroSpecter)
 
-📢 If you find that AndroLibZoo lacks a specific package name of a library that might have been missed, please feel free to propose a pull-request, ***the better the list, the better our analyses***.
+## Dataset
 
-## Easier access and use
+[`AndroLibZoo.lst`](AndroLibZoo.lst) is a plain-text file with one package name per line. This version contains **34,813 entries**. Entries can represent a package or a broader namespace; for example, `com.example` can be used to match its subpackages. See the [paper](https://doi.org/10.1145/3643991.3644866) for the collection methodology.
 
-We have wrapped the AndroLibZoo dataset for easier use in your program.
-The [AndroSpecter](https://github.com/JordanSamhi/AndroSpecter) library has a [LibrariesManager](https://github.com/JordanSamhi/AndroSpecter/wiki/LibrariesManager) that you can easily use:
+Package-name matching is a heuristic: a match does not establish which library or version is present, and renamed or obfuscated packages may not match. Some entries are broad (for example, `io`), so matching every subpackage can also produce false positives. Choose and evaluate the matching policy for your analysis.
+
+## Use the dataset
+
+Download [`AndroLibZoo.lst`](AndroLibZoo.lst) or clone this repository and load the file in your analysis. The following example checks a fully qualified class name against the list, matching whole package components:
+
+```python
+from pathlib import Path
+
+packages = set(Path("AndroLibZoo.lst").read_text(encoding="utf-8").splitlines())
+
+
+def is_library_class(class_name: str) -> bool:
+    package = class_name.rpartition(".")[0]
+    while package:
+        if package in packages:
+            return True
+        package = package.rpartition(".")[0]
+    return False
+
+
+print(is_library_class("com.google.ads.AdView"))  # True: com.google is in the list
+```
+
+Run the example from the repository root. Checking whole package components avoids treating a name such as `com.example2` as a subpackage of `com.example`.
+
+### Use with AndroSpecter
+
+[AndroSpecter](https://github.com/JordanSamhi/AndroSpecter) provides a `LibrariesManager` for checking Soot classes against its bundled library list:
 
 ```java
-LibrariesManager manager = LibrariesManager.v();
-SootClass sootClass = // Retrieve a SootClass instance
-boolean isLibrary = manager.isLibrary(sootClass);
-
-if (isLibrary) {
-    System.out.println("The class is a library.");
-} else {
-    System.out.println("The class is not a library.");
-}
+// Given a SootClass obtained from your analysis:
+boolean isLibrary = LibrariesManager.v().isLibrary(sootClass);
 ```
 
-Please checkout [here](https://github.com/JordanSamhi/AndroSpecter/wiki) for more.
+See the [LibrariesManager documentation](https://github.com/JordanSamhi/AndroSpecter/wiki/LibrariesManager) for details and the [AndroSpecter repository](https://github.com/JordanSamhi/AndroSpecter) for setup. The bundled list may differ from the current file in this repository.
 
-If you use our dataset, even with AndroSpecter, please cite our work:
+## Research artifacts
 
-```
+The [Zenodo archive](https://doi.org/10.5281/zenodo.10072709) contains the dataset and artifacts used to construct and describe it, including scripts and intermediate results.
+
+[![Zenodo DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.10072709.svg)](https://doi.org/10.5281/zenodo.10072709)
+
+## Cite
+
+If you use AndroLibZoo in your work, including through AndroSpecter, please cite:
+
+```bibtex
 @inproceedings{androlibzoo,
-	title        = {AndroLibZoo: A Reliable Dataset of Libraries Based on Software Dependency Analysis},
-	author       = {J. Samhi and T. F. Bissyande and J. Klein},
-	year         = 2024,
-	month        = april,
-	booktitle    = {2024 IEEE/ACM 21st International Conference on Mining Software Repositories (MSR)}
+  title     = {AndroLibZoo: A Reliable Dataset of Libraries Based on Software Dependency Analysis},
+  author    = {Samhi, Jordan and Bissyand{\'e}, Tegawend{\'e} Fran{\c{c}}ois and Klein, Jacques},
+  booktitle = {2024 IEEE/ACM 21st International Conference on Mining Software Repositories (MSR)},
+  year      = {2024},
+  doi       = {10.1145/3643991.3644866}
 }
 ```
 
-## Artifacts
+## Contribute
 
-All artifacts used in our study are available in Zenodo.
+Missing a library package? Please open a pull request adding it to [`AndroLibZoo.lst`](AndroLibZoo.lst). Include a link to the library or another source that helps verify the package name.
 
-## Link to the Zenodo archive
+## License and contact
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.10072709.svg)](https://doi.org/10.5281/zenodo.10072709)
-
-
-:link: https://zenodo.org/record/10072709
-
-## License
-
-This project is licensed under the MIT LICENSE - see the [LICENSE](LICENSE) file for details
-
-## Contact
-
-For any question regarding this study, please contact us at:
-[Jordan Samhi](mailto:jordan.samhi@cispa.de)
+AndroLibZoo is available under the [MIT License](LICENSE). For questions about the study, contact [Jordan Samhi](mailto:jordan.samhi@cispa.de).
