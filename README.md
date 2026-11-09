@@ -12,14 +12,14 @@ AndroLibZoo is a dataset of package names for identifying third-party library co
 
 | Version | File | Distinct nonempty entries |
 | --- | --- | ---: |
-| 2026 | [`AndroLibZoo2026.lst`](AndroLibZoo2026.lst) | 36,926 |
+| 2026 | [`AndroLibZoo2026.lst`](AndroLibZoo2026.lst) | 36,924 |
 | Original | [`AndroLibZoo.lst`](AndroLibZoo.lst) | 34,813 |
 
-The files contain one entry per line. The 2026 version contains all entries from the original list and adds 2,113 distinct entries, after trimming whitespace. The original file remains available for reproducibility. See the [paper](https://doi.org/10.1145/3643991.3644866) for the original dataset and its collection methodology.
+The files contain one entry per line. After trimming whitespace, the 2026 version adds 2,112 distinct entries and removes one entry (`io`) compared with the original list. The original file remains available for reproducibility. See the [paper](https://doi.org/10.1145/3643991.3644866) for the original dataset and its collection methodology.
 
-The 2026 file contains a blank line, whitespace around some entries, and duplicates after trimming. Strip whitespace, discard empty lines, and deduplicate entries when loading it. Entries include broad namespaces as well as more specific names; some are not valid Java package identifiers.
+The 2026 file contains whitespace around some entries and duplicates after trimming. Strip whitespace, discard empty lines, and deduplicate entries when loading it. Entries include broad namespaces as well as more specific names; some are not valid Java package identifiers.
 
-**Choose your matching policy carefully.** In particular, the 2026 list contains `org`, so treating every entry as a package prefix would classify every `org.*` package as library code. A match does not establish which library or version is present, and renamed or obfuscated packages may not match.
+**Choose your matching policy carefully.** Some entries, such as `com.github` and `io.github`, cover broad namespaces; treating them as package prefixes may classify unrelated developer code as library code. A match does not establish which library or version is present, and renamed or obfuscated packages may not match.
 
 ## Use the dataset
 
